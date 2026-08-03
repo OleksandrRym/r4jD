@@ -1,0 +1,20 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, circuitbreakers
+  health:
+    circuitbreakers:
+      enabled: true
+
+resilience4j.circuitbreaker:
+  instances:
+    paymentService:
+      registerHealthIndicator: true
+      slidingWindowType: COUNT_BASED
+      slidingWindowSize: 10          # Аналізуємо останні 10 запитів
+      minimumNumberOfCalls: 5        # Мінімальна кількість викликів для аналізу
+      failureRateThreshold: 50.0     # Поріг помилок у відсотках (50%)
+      waitDurationInSync: 10s        # Час у стані OPEN перед переходом в HALF_OPEN
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
