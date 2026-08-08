@@ -1,20 +1,19 @@
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health, metrics, circuitbreakers
-  health:
-    circuitbreakers:
-      enabled: true
+server:
+  port: ${SERVER_PORT:9000}
 
-resilience4j.circuitbreaker:
-  instances:
-    paymentService:
-      registerHealthIndicator: true
-      slidingWindowType: COUNT_BASED
-      slidingWindowSize: 10          # Аналізуємо останні 10 запитів
-      minimumNumberOfCalls: 5        # Мінімальна кількість викликів для аналізу
-      failureRateThreshold: 50.0     # Поріг помилок у відсотках (50%)
-      waitDurationInSync: 10s        # Час у стані OPEN перед переходом в HALF_OPEN
-      permittedNumberOfCallsInHalfOpenState: 3
-      automaticTransitionFromOpenToHalfOpenEnabled: true
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/appdb}
+    username: ${SPRING_DATASOURCE_USERNAME:appuser}
+    password: ${SPRING_DATASOURCE_PASSWORD:apppass}
+  kafka:
+    consumer:
+      bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+      group-id: ${SPRING_KAFKA_CONSUMER_GROUP_ID:group_id}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
