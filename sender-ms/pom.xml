@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.orymar</groupId>
-    <artifactId>reliable-ms</artifactId>
+    <artifactId>sender-ms</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>reliable-ms</name>
-    <description>reliable-ms</description>
+    <name>sender-ms</name>
+    <description>sender-ms</description>
     <url/>
     <licenses>
         <license/>
