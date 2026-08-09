@@ -16,6 +16,24 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+  go-consumer:
+    build:
+      context: ./listener
+      dockerfile: Dockerfile
+    container_name: go-consumer
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_TOPIC: my-topic
+      KAFKA_GROUP_ID: go-consumer-group
+      POSTGRES_URL: postgres://appuser:apppass@postgres:5432/appdb
+    depends_on:
+      kafka:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
 
   kafka:
     image: apache/kafka:latest
@@ -57,7 +75,8 @@ services:
      - kafka
 
   app:
-    build: .
+    build:
+      context: ./sender-ms
     container_name: spring-app
     restart: unless-stopped
     ports:
