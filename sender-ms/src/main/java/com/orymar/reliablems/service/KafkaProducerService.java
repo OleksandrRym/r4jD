@@ -8,14 +8,9 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class KafkaProducerService {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public void sendMessage(String topic, String key, String value) {
-        kafkaTemplate.send(topic, key, value)
-                .whenComplete((result, ex) -> {
-                    if (ex == null) {
-                        System.out.println("→ partition: " + result.getRecordMetadata().partition());
-                    }
-                });
+    public void sendMessage(String topic, String key, Object payload) {
+        kafkaTemplate.send(topic, key, payload);
     }
 }
