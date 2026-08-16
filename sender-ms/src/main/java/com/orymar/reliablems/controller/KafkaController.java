@@ -12,7 +12,7 @@ import com.orymar.reliablems.entity.KafkaMessagePayload;
 
 @RestController
 @AllArgsConstructor
-public class BaseController {
+public class KafkaController {
     private final KafkaProducerService producerService;
     private static final String KAFKA_TOPIC = "my-topic";
 
